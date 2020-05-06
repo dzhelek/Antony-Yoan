@@ -1,15 +1,14 @@
 import os
 from settings import DB_NAME
 from setup_database import setup_database
-from views import UserViews
-from views import choose_login_or_signup, clear_screen
+from views import UserViews, clear_screen
 
 
 def welcome():
     print('----- WELCOME to our cinema reservation system! -----'.center(os.get_terminal_size().columns))
 
 
-def start(self):
+def start():
     clear_screen()
     welcome()
     views = UserViews()
@@ -17,6 +16,6 @@ def start(self):
 
 
 if __name__ == '__main__':
-    if not os.exists(DB_NAME):
+    if not os.path.exists(DB_NAME):  #mislq che trqbva da se promeni, bazata danni e fail, koito trqbva da e suzdaden vinagi
         setup_database()
     start()

@@ -43,7 +43,20 @@ class UserViews:
         print('----- LOG IN -----')
         username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
         password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
-        self.controller.log_user(username, password)
+        login_result = self.controller.log_user(username, password)
+        does_want_to_signup = False
+        while login_result != 'Correct':
+            print(login_result)
+            does_want_to_signup = input('You do not have a profile? Do you want to signup? y/n: ')
+            if does_want_to_signup.lower() == 'y':
+                does_want_to_signup = True
+                break
+            username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
+            password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
+            login_result = self.controller.log_user(username, password)
+
+        if does_want_to_signup is True:
+            self.signup()
 
     def signup(self):
         clear_screen()
@@ -51,6 +64,7 @@ class UserViews:
         username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
         email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
         password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
+        signup_result = self.controller.sign_user(username, email, password)
 
         # self.controller.create_user(email=email, password=password)
 
