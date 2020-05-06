@@ -1,23 +1,21 @@
-from os.path import exists
+import os
+from settings import DB_NAME
+from setup_database import setup_database
+from views import UserViews, clear_screen
 
-import gateway
-from settings import DB_NAME, SU_NAME, SU_PASS
 
-
-def build():
-    print(f'''Database '{DB_NAME}' not detected!
-Creating database...''')
-    gateway.create_db()
-    print(f'''
-super user username: {SU_NAME}
-super user password: {SU_PASS}''')
+def welcome():
+    print('----- WELCOME to our cinema reservation system! -----'.center(os.get_terminal_size().columns))
 
 
 def start():
-    pass
+    clear_screen()
+    welcome()
+    views = UserViews()
+    views.choose_login_or_signup()
 
 
 if __name__ == '__main__':
-    if not exists(DB_NAME):
-        build()
+    if not os.path.exists(DB_NAME):  #mislq che trqbva da se promeni, bazata danni e fail, koito trqbva da e suzdaden vinagi
+        setup_database()
     start()
