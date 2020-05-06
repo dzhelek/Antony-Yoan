@@ -5,7 +5,6 @@ class UserGateway:
     def __init__(self):
         # self.model = UserModel()
         self.db = Database()
-        pass
 
     def log(self, username, password):
         pass
