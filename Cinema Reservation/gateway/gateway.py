@@ -39,3 +39,4 @@ class MovieGateway:
         selected_movies = self.db.fetchall()
         self.db.commit()
         return selected_movies
+
