@@ -21,10 +21,11 @@ class UserViews:
 
     def guest_user_help_view(self):
         print('\nlist of commands:\n')
+        print('exit')
+        print('help')
         print('login')
         print('signup')
-        print('exit')
-        print('help\n')
+        print()
 
     def error_view(self, error):
         print(error)
