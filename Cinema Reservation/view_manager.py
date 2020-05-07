@@ -19,6 +19,8 @@ class UserViewControllerManager:
                 user_entered_system = self.manage_login_view_and_controller()
             elif command == 'signup':
                 user_entered_system = self.manage_signup_view_and_controller()
+            elif command == 'exit':
+                user_entered_system = self.manage_exit_view_and_controller()
             else:
                 print(f'\'{command}\' command not found')
             if user_entered_system is not None:
@@ -50,6 +52,9 @@ class UserViewControllerManager:
             error_message_fields = str(err).split('.')
             message_to_print = f'User with this {error_message_fields[1]} already exists!'
             self.views.error_view(message_to_print)
+
+    def manage_exit_view_and_controller(self):
+        return self.views.exit()
 
     def release_resources(self):
         self.controllers.gateway.db.close()
