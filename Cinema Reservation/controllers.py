@@ -37,6 +37,9 @@ class UserController:
     def sign_user(self, username, email, password):
         self.gateway.update_table_with_user_data(username, email, password)
 
+    def select_user_by_username(self, username, password):
+        self.gateway.search_user_by_name(username, password)
+
 
     # def create_user(self, email, password):
     #     user = self.users_gateway.create(email=email, password=password)

@@ -15,6 +15,7 @@ def start():
     manager = UserViewControllerManager()
     user = manager.manage_entering_system_views_and_controllers()
     manager.manage_user_commands_views_and_controllers(user)
+    manager.release_resources()
 
 
 if __name__ == '__main__':

@@ -53,6 +53,13 @@ class UserViews:
         password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
         return (username, password)  
 
+    def signup(self):
+        print('----- SIGH UP -----')
+        username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
+        email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
+        password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
+        return (username, email, password)
+
     # def login(self):
     #     clear_screen()
     #     print('----- LOG IN -----')
@@ -73,13 +80,13 @@ class UserViews:
     #     if does_want_to_signup is True:
     #         self.signup()
 
-    def signup(self):
-        clear_screen()
-        print('----- SIGH UP -----')
-        username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
-        email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
-        password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
-        signup_result = self.controller.sign_user(username, email, password)
+    # def signup(self):
+    #     clear_screen()
+    #     print('----- SIGH UP -----')
+    #     username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
+    #     email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
+    #     password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
+    #     signup_result = self.controller.sign_user(username, email, password)
 
         # self.controller.create_user(email=email, password=password)
 
