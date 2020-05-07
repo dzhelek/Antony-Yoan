@@ -21,9 +21,9 @@ class UserViews:
 
     def guest_user_help_view(self):
         print('\nlist of commands:\n')
+        print('exit')
         print('help')
         print('login')
-        print('exit')
         print('signup')
         print()
 
