@@ -1,7 +1,10 @@
-from controllers import UserController
-from termcolor import colored
-from views_constants import *
+from getpass import getpass
 import subprocess
+
+from controllers import UserController
+from views_constants import *
+
+from termcolor import colored
 
 
 def clear_screen():
@@ -13,15 +16,16 @@ class UserViews:
         self.controller = UserController()
 
     def console_read_command_view(self):
-        command = input('>>')
+        command = input('> ')
         return command
 
     def guest_user_help_view(self):
-        print('list of commands:')
+        print('\nlist of commands:\n')
+        print('help')
         print('login')
-        print('signup')
         print('exit')
-        print('help\n')
+        print('signup')
+        print()
 
     def error_view(self, error):
         print(error)
@@ -59,14 +63,14 @@ class UserViews:
     def login(self):
         print('----- LOG IN -----')
         username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
-        password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
-        return (username, password)  
+        password = getpass(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
+        return (username, password)
 
     def signup(self):
         print('----- SIGH UP -----')
         username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
         email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
-        password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
+        password = getpass(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
         return (username, email, password)
 
     def help(self):
@@ -79,7 +83,7 @@ class UserViews:
         print(colored('cancel reservation <name>', COMMAND_COLOR_IN_HELP))
         print(colored('exit', COMMAND_COLOR_IN_HELP))
 
-    def exit(self, username):
+    def exit(self, username='guest'):
         print(colored(f'Goodbye, {username}!', COLOR_IN_EXIT, attrs=['bold']))
 
 
