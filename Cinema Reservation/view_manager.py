@@ -39,6 +39,14 @@ class UserViewControllerManager:
 
     def manage_user_commands_views_and_controllers(self, user):
         self.views.welcome_user(user)
+        while True:
+            command = self.views.console_read_command_view()
+            if command == 'help':
+                self.views.logged_user_help_view()
+            elif command == 'exit':
+                raise SystemExit
+            else:
+                print(f'\'{command}\' command not found')
 
     def manage_signup_view_and_controller(self):
         signup_data = self.views.signup()

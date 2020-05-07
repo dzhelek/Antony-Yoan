@@ -12,9 +12,6 @@ class UserViews:
     def __init__(self):
         self.controller = UserController()
 
-    # def invalid_data_provided(self, message):
-    #     print(message)
-
     def console_read_command_view(self):
         command = input('>>')
         return command
@@ -31,6 +28,14 @@ class UserViews:
 
     def welcome_user(self, user):
         print(f'Hello, {user.username}')
+
+    def logged_user_help_view(self):
+        print('list of commands:')
+        print('show movies')
+        print('show movie projections <movie_id> [<date>]')
+        print('make reservation')
+        print('exit')
+        print('help\n')
 
     def choose_login_or_signup(self):
         print('Enter:')
