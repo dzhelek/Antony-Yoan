@@ -1,20 +1,22 @@
-from views import UserViews
-from controllers import UserController
+from views import UserViews, MovieViews
+from controllers import UserController, MovieController
 from models import UserModel
 
 
-class UserViewControllerManager:
+class ViewControllerManager:
     def __init__(self):
-        self.views = UserViews()
-        self.controllers = UserController()
+        self.user_views = UserViews()
+        self.user_controllers = UserController()
+        self.movie_views = MovieViews()
+        self.movie_controllers = MovieController()
 
     def manage_entering_system_views_and_controllers(self):
         is_system_entered = False
         user_entered_system = None
         while not is_system_entered:
-            command = self.views.console_read_command_view()
+            command = self.user_views.console_read_command_view()
             if command == 'help':
-                self.views.guest_user_help_view()
+                self.user_views.guest_user_help_view()
             elif command == 'login':
                 user_entered_system = self.manage_login_view_and_controller()
             elif command == 'signup':
@@ -29,30 +31,41 @@ class UserViewControllerManager:
         return user_entered_system
 
     def manage_login_view_and_controller(self):
-        login_data = self.views.login()
+        login_data = self.user_views.login()
         username_entered = login_data[0]
         password_entered = login_data[1]
         try:
-            return self.controllers.log_user(username_entered, password_entered)
+            return self.user_controllers.log_user(username_entered, password_entered)
         except ValueError as err:
-            self.views.error_view(str(err))
+            self.user_views.error_view(str(err))
 
     def manage_user_commands_views_and_controllers(self, user):
-        self.views.welcome_user(user)
+        self.user_views.welcome_user(user)
+        while True:
+            command = self.user_views.console_read_command_view()
+            if command == 'help':
+                self.user_views.logged_user_help_view()
+            elif command == 'show movies':
+                self.user_controllers.show_movies()
+                # self.views.show_movies_view()
+            elif command == 'exit':
+                raise SystemExit
+            else:
+                print(f'\'{command}\' command not found')
 
     def manage_signup_view_and_controller(self):
-        signup_data = self.views.signup()
+        signup_data = self.user_views.signup()
         username_entered = signup_data[0]
         email_entered = signup_data[1]
         password_entered = signup_data[2]
         try:
-            self.controllers.sign_user(username_entered, email_entered, password_entered)
-            user_data = self.controllers.select_user_by_username(username_entered, password_entered)
+            self.user_controllers.sign_user(username_entered, email_entered, password_entered)
+            user_data = self.user_controllers.select_user_by_username(username_entered, password_entered)
             return UserModel(user_data[0], user_data[1], user_data[2], user_data[3])
         except Exception as err:
             error_message_fields = str(err).split('.')
             message_to_print = f'User with this {error_message_fields[1]} already exists!'
-            self.views.error_view(message_to_print)
+            self.user_views.error_view(message_to_print)
 
     def release_resources(self):
-        self.controllers.gateway.db.close()
+        self.user_controllers.gateway.db.close()

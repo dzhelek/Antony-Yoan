@@ -1,6 +1,6 @@
 from models import UserModel
 from database import Database
-from queries import select_user_by_user_name, insert_user_in_user_table
+from queries import select_user_by_user_name, insert_user_in_user_table, select_all_movies_in_movie_table
 
 
 class UserGateway:
@@ -28,3 +28,15 @@ class UserGateway:
         raw_users = self.db.cursor.execute()  # TODO: Select all users
 
         return [self.model(**row) for row in raw_users]
+
+
+class MovieGateway:
+    def __init__(self):
+        self.db = Database()
+
+    def select_all_movies(self):
+        self.db.cursor.execute(select_all_movies_in_movie_table)
+        selected_movies = self.db.fetchall()
+        self.db.commit()
+        return selected_movies
+
