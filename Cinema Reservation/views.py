@@ -37,6 +37,9 @@ class UserViews:
         print('exit')
         print('help\n')
 
+    def show_movies_view():
+        pass
+
     def choose_login_or_signup(self):
         print('Enter:')
         print(f'      {CHOICE_FOR_LOGIN_IN_CHOOSE_LOGIN_OR_SIGNUP} - login')
@@ -66,40 +69,6 @@ class UserViews:
         password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
         return (username, email, password)
 
-    # def login(self):
-    #     clear_screen()
-    #     print('----- LOG IN -----')
-    #     username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
-    #     password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
-    #     login_result = self.controller.log_user(username, password)
-    #     does_want_to_signup = False
-    #     while login_result != 'Correct':
-    #         print(login_result)
-    #         does_want_to_signup = input('You do not have a profile? Do you want to signup? y/n: ')
-    #         if does_want_to_signup.lower() == 'y':
-    #             does_want_to_signup = True
-    #             break
-    #         username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
-    #         password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
-    #         login_result = self.controller.log_user(username, password)
-
-    #     if does_want_to_signup is True:
-    #         self.signup()
-
-    # def signup(self):
-    #     clear_screen()
-    #     print('----- SIGH UP -----')
-    #     username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
-    #     email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
-    #     password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
-    #     signup_result = self.controller.sign_user(username, email, password)
-
-        # self.controller.create_user(email=email, password=password)
-
-    def show_movies(self, movies):
-        for movie in movies:
-            print(movie)
-
     def help(self):
         print('----- HELP -----')
         print('Available commands:\n')
@@ -112,6 +81,10 @@ class UserViews:
 
     def exit(self, username):
         print(colored(f'Goodbye, {username}!', COLOR_IN_EXIT, attrs=['bold']))
+
+
+class MovieViews:
+    pass
 
 
 if __name__ == '__main__':

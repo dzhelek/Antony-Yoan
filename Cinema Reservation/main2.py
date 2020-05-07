@@ -2,7 +2,7 @@ import os
 from settings import DB_NAME
 from setup_database import setup_database
 from views import UserViews, clear_screen
-from view_manager import UserViewControllerManager
+from view_controller_manager import ViewControllerManager
 
 
 def welcome():
@@ -12,7 +12,7 @@ def welcome():
 def start():
     clear_screen()
     welcome()
-    manager = UserViewControllerManager()
+    manager = ViewControllerManager()
     user = manager.manage_entering_system_views_and_controllers()
     manager.manage_user_commands_views_and_controllers(user)
     manager.release_resources()
