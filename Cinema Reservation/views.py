@@ -23,6 +23,7 @@ class UserViews:
         print('list of commands:')
         print('login')
         print('signup')
+        print('exit')
         print('help\n')
 
     def error_view(self, error):
