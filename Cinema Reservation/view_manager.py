@@ -19,6 +19,8 @@ class UserViewControllerManager:
                 user_entered_system = self.manage_login_view_and_controller()
             elif command == 'signup':
                 user_entered_system = self.manage_signup_view_and_controller()
+            elif command == 'exit':
+                raise SystemExit
             else:
                 print(f'\'{command}\' command not found')
             if user_entered_system is not None:
@@ -45,7 +47,8 @@ class UserViewControllerManager:
         password_entered = signup_data[2]
         try:
             self.controllers.sign_user(username_entered, email_entered, password_entered)
-            return self.controllers.select_user_by_username(username_entered, password_entered)
+            user_data = self.controllers.select_user_by_username(username_entered, password_entered)
+            return UserModel(user_data[0], user_data[1], user_data[2], user_data[3])
         except Exception as err:
             error_message_fields = str(err).split('.')
             message_to_print = f'User with this {error_message_fields[1]} already exists!'

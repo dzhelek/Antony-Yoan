@@ -18,7 +18,7 @@ class UserController:
     #         else:
 
     def log_user(self, username, password):
-        user_data = self.gateway.search_user_by_name(username=username, password=password)
+        user_data = self.gateway.search_user_by_name(username)
         if user_data is not None:
             if password == user_data[3]:
                 return UserModel(user_data[0], user_data[1], user_data[2], user_data[3])
@@ -38,7 +38,7 @@ class UserController:
         self.gateway.update_table_with_user_data(username, email, password)
 
     def select_user_by_username(self, username, password):
-        self.gateway.search_user_by_name(username, password)
+        return self.gateway.search_user_by_name(username)
 
 
     # def create_user(self, email, password):
