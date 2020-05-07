@@ -12,8 +12,24 @@ class UserViews:
     def __init__(self):
         self.controller = UserController()
 
-    def invalid_data_provided(self, message):
-        print(message)
+    # def invalid_data_provided(self, message):
+    #     print(message)
+
+    def console_read_command_view(self):
+        command = input('>>')
+        return command
+
+    def guest_user_help_view(self):
+        print('list of commands:')
+        print('login')
+        print('signup')
+        print('help\n')
+
+    def error_view(self, error):
+        print(error)
+
+    def welcome_user(self, user):
+        print(f'Hello, {user.username}')
 
     def choose_login_or_signup(self):
         print('Enter:')
@@ -30,41 +46,47 @@ class UserViews:
                 is_entering_system_successful = True
             else:
                 print(colored('INVALID OPTION', INVALID_OPTION_TEXT_COLOR))
-        # enter_system_returned_value = self.controller.enter_system(choice)
-        # while enter_system_returned_value != VALID_LOGIN_OR_SIGNUP_RETURNED_VALUE:
-        #     if enter_system_returned_value == INVALID_CHOICE_RETURNED_VALUE:
-        #         print('INVALID OPTION')
-        #     elif enter_system_returned_value == INV
-        #     choice = input(colored('Input: ', COLOR_IN_LOGIN_OR_SIGNUP))
-        #     enter_system_returned_value = self.controller.enter_system(choice)
 
     def login(self):
-        clear_screen()
         print('----- LOG IN -----')
         username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
         password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
-        login_result = self.controller.log_user(username, password)
-        does_want_to_signup = False
-        while login_result != 'Correct':
-            print(login_result)
-            does_want_to_signup = input('You do not have a profile? Do you want to signup? y/n: ')
-            if does_want_to_signup.lower() == 'y':
-                does_want_to_signup = True
-                break
-            username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
-            password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
-            login_result = self.controller.log_user(username, password)
-
-        if does_want_to_signup is True:
-            self.signup()
+        return (username, password)  
 
     def signup(self):
-        clear_screen()
         print('----- SIGH UP -----')
         username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
         email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
         password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
-        signup_result = self.controller.sign_user(username, email, password)
+        return (username, email, password)
+
+    # def login(self):
+    #     clear_screen()
+    #     print('----- LOG IN -----')
+    #     username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
+    #     password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
+    #     login_result = self.controller.log_user(username, password)
+    #     does_want_to_signup = False
+    #     while login_result != 'Correct':
+    #         print(login_result)
+    #         does_want_to_signup = input('You do not have a profile? Do you want to signup? y/n: ')
+    #         if does_want_to_signup.lower() == 'y':
+    #             does_want_to_signup = True
+    #             break
+    #         username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
+    #         password = input(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
+    #         login_result = self.controller.log_user(username, password)
+
+    #     if does_want_to_signup is True:
+    #         self.signup()
+
+    # def signup(self):
+    #     clear_screen()
+    #     print('----- SIGH UP -----')
+    #     username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
+    #     email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
+    #     password = input(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
+    #     signup_result = self.controller.sign_user(username, email, password)
 
         # self.controller.create_user(email=email, password=password)
 

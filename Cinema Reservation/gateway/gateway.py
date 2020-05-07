@@ -1,6 +1,6 @@
 from models import UserModel
 from database import Database
-from queries import select_user_by_user_name
+from queries import select_user_by_user_name, insert_user_in_user_table
 
 
 class UserGateway:
@@ -10,11 +10,13 @@ class UserGateway:
 
     def search_user_by_name(self, username, password):
         self.db.cursor.execute(select_user_by_user_name, (username,))
-        return self.db.cursor.fetchone()
-
+        selected_user_data = self.db.cursor.fetchone()
+        self.db.commit()
+        return selected_user_data
 
     def update_table_with_user_data(self, username, email, password):
-        print('Zapochva proces na vpisvane, no ne e dovurshen')
+        self.db.cursor.execute(insert_user_in_user_table, (username, email, password))
+        self.db.commit()
         # self.model.validate(username, email, password)
         # self.db.cursor.execute()  # TODO: create user query
 
