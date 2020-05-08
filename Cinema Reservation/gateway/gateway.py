@@ -14,8 +14,9 @@ class UserGateway:
         self.db.commit()
         return selected_user_data
 
-    def update_table_with_user_data(self, username, email, password):
-        self.db.cursor.execute(insert_user_in_user_table, (username, email, password))
+    def update_table_with_user_data(self, username, email, password, salt):
+        self.db.cursor.execute(insert_user_in_user_table,
+                               (username, email, password, salt, 0))
         self.db.commit()
         # self.db.close()
         # self.db = Database()
