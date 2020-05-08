@@ -22,6 +22,19 @@ create_projection_table = '''CREATE TABLE IF NOT EXISTS projection(
                              )
 '''
 
+create_reservation_table = '''CREATE TABLE IF NOT EXISTS reservation(
+                             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                             user_id INTEGER NOT NULL,
+                             projection_id INTEGER NOT NULL,
+                             row INTEGER NOT NULL,
+                             col INTEGER NOT NULL,
+                             FOREIGN KEY(user_id) REFERENCES user(id),
+                             FOREIGN KEY(projection_id) REFERENCES projection(id)
+                             )
+'''
+
+insert_initial_user_in_user_table = '''INSERT INTO user (username, email, password) VALUES('user', 'user@abv.bg', '1234')'''
+
 insert_initial_movies_in_movie_table = '''INSERT INTO movie (name, rating)
                                           VALUES ('The Hunger Games: Catching Fire', 7.9),
                                                  ('Wreck-It Ralph', 7.8),
@@ -35,6 +48,10 @@ insert_initial_projections_in_projection_table = '''INSERT INTO projection (movi
                                                            (3, '2D', '2020-04-05', '20:20'),
                                                            (2, '3D', '2020-04-02', '22:00'),
                                                            (2, '2D', '2020-04-02', '19:30')
+'''
+
+insert_initial_reservations_in_reservation_table = '''INSERT INTO reservation (user_id, projection_id, row, col)
+                                                      VALUES (1, 1, 2, 1)                                                           
 '''
 
 select_user_by_user_name = 'SELECT * FROM user WHERE username = ?'
