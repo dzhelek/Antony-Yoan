@@ -102,6 +102,8 @@ class ProjectionViews:
 
     def show_all_projections(self, projections):
         print()
+        if projections == []:
+            print('No projections available')
         for projection in projections:
             print(projection.type + ' ' + projection.date + ' ' + projection.time)
 

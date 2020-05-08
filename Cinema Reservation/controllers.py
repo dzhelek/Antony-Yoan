@@ -41,15 +41,16 @@ class ProjectionController:
 
     def show_projection(self, movie, date):
         if date == '':
-            projections_selected = self.gateway.select_projections_for_given_movie(movie)
-            projections = []
-            for projection in projections_selected:
-                id = projection[0]
-                movie_id = projection[1]
-                type = projection[2]
-                date = projection[3]
-                time = projection[4]
-                projections.append(ProjectionModel(id, movie_id, type, date, time))
-            return projections
+            projections_selected = self.gateway.select_projections_for_given_movie_and_date(movie)
         else:
-            self.gateway.select_projections_for_given_movie_and_date()
+            projections_selected = self.gateway.select_projections_for_given_movie_and_date(movie, date)
+
+        projections = []
+        for projection in projections_selected:
+            id = projection[0]
+            movie_id = projection[1]
+            type = projection[2]
+            date = projection[3]
+            time = projection[4]
+            projections.append(ProjectionModel(id, movie_id, type, date, time))
+        return projections

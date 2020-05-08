@@ -42,4 +42,6 @@ insert_user_in_user_table = 'INSERT INTO user (username, email, password) VALUES
 
 select_all_movies_in_movie_table = 'SELECT * FROM movie ORDER BY rating DESC'
 
-select_all_projections_for_movie = 'SELECT * from projection where movie_id = (SELECT id from movie WHERE name = ?)'
+select_all_projections_for_movie = 'SELECT * FROM projection WHERE movie_id = (SELECT id FROM movie WHERE name = ?) ORDER BY date'
+
+select_all_projections_for_movie_and_date = 'SELECT * FROM projection WHERE movie_id = (SELECT id FROM movie WHERE name = ? AND date = ?) ORDER BY date'
