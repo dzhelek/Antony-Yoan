@@ -1,6 +1,6 @@
-from views import UserViews, MovieViews, ProjectionViews
 from controllers import UserController, MovieController, ProjectionController
 from models import UserModel
+from views import UserViews, MovieViews, ProjectionViews
 
 
 class ViewControllerManager:
