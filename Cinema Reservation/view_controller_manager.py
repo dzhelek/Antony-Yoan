@@ -2,6 +2,8 @@ from views import UserViews, MovieViews
 from controllers import UserController, MovieController
 from models import UserModel
 
+import re
+
 
 class ViewControllerManager:
     def __init__(self):
@@ -48,6 +50,9 @@ class ViewControllerManager:
             elif command == 'show movies':
                 all_movies = self.movie_controllers.show_movies()
                 self.movie_views.show_all_view(all_movies)
+            # elif command == 'show movie projections <movie_name> [<date>]':
+            elif re.match('show movie projections *', command):
+                pass
             elif command == 'exit':
                 raise SystemExit
             else:

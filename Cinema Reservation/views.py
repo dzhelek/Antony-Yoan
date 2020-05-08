@@ -36,7 +36,7 @@ class UserViews:
     def logged_user_help_view(self):
         print('list of commands:')
         print('show movies')
-        print('show movie projections <movie_id> [<date>]')
+        print('show movie projections <movie_name> [<date>]')
         print('make reservation')
         print('exit')
         print('help\n')
