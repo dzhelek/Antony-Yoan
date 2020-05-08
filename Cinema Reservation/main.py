@@ -21,6 +21,5 @@ def start():
 
 
 if __name__ == '__main__':
-    # if not os.path.exists(DB_NAME):  #mislq che trqbva da se promeni, bazata danni e fail, koito trqbva da e suzdaden vinagi
-    #     setup_database()
+    setup_database()
     start()
