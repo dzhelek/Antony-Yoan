@@ -88,7 +88,10 @@ class UserViews:
 
 
 class MovieViews:
-    pass
+    def show_all_view(self, movies):
+        print()
+        for movie in movies:
+            print(movie.name + ' ' * (60 - len(movie.name)) + str(movie.rating))
 
 
 if __name__ == '__main__':

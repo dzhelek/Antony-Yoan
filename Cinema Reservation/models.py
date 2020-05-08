@@ -29,3 +29,10 @@ class UserModel:
 
     def __str__(self):
         return f'{self.id} | {self.username} | {self.email} | {self.password}'
+
+
+class MovieModel:
+    def __init__(self, id, name, rating):
+        self.id = id
+        self.name = name
+        self.rating = rating

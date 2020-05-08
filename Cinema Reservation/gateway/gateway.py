@@ -36,6 +36,6 @@ class MovieGateway:
 
     def select_all_movies(self):
         self.db.cursor.execute(select_all_movies_in_movie_table)
-        selected_movies = self.db.fetchall()
+        selected_movies = self.db.cursor.fetchall()
         self.db.commit()
         return selected_movies

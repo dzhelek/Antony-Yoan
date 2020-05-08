@@ -46,8 +46,8 @@ class ViewControllerManager:
             if command == 'help':
                 self.user_views.logged_user_help_view()
             elif command == 'show movies':
-                self.user_controllers.show_movies()
-                # self.views.show_movies_view()
+                all_movies = self.movie_controllers.show_movies()
+                self.movie_views.show_all_view(all_movies)
             elif command == 'exit':
                 raise SystemExit
             else:

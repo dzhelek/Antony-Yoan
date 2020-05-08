@@ -1,6 +1,6 @@
 from gateway.gateway import UserGateway, MovieGateway
 from views_constants import INVALID_CHOICE_RETURNED_VALUE, CHOICE_FOR_LOGIN_IN_CHOOSE_LOGIN_OR_SIGNUP, CHOICE_FOR_SIGNUP_IN_CHOOSE_LOGIN_OR_SIGNUP
-from models import UserModel
+from models import UserModel, MovieModel
 
 class UserController:
     def __init__(self):
@@ -25,5 +25,11 @@ class MovieController:
         self.gateway = MovieGateway()
 
     def show_movies(self):
-        movies = self.gateway.select_all_movies()
-        print(movies)
+        movies_selected = self.gateway.select_all_movies()
+        movies = []
+        for movie in movies_selected:
+            id = movie[0]
+            name = movie[1]
+            rating = movie[2]
+            movies.append(MovieModel(id, name, rating))
+        return movies
