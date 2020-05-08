@@ -36,7 +36,7 @@ class UserViews:
     def logged_user_help_view(self):
         print('list of commands:')
         print('show movies')
-        print('show movie projections <movie_name> [<date>]')
+        print('show movie projections')
         print('make reservation')
         print('exit')
         print('help\n')
@@ -92,6 +92,18 @@ class MovieViews:
         print()
         for movie in movies:
             print(movie.name + ' ' * (60 - len(movie.name)) + str(movie.rating))
+
+
+class ProjectionViews:
+    def choose_movie_and_date(self):
+        movie = input(colored('Movie: ', 'blue'))
+        date = input(colored('Date: ', 'blue'))
+        return (movie, date)
+
+    def show_all_projections(self, projections):
+        print()
+        for projection in projections:
+            print(projection.type + ' ' + projection.date + ' ' + projection.time)
 
 
 if __name__ == '__main__':

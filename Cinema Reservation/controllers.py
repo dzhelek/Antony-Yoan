@@ -1,6 +1,6 @@
-from gateway.gateway import UserGateway, MovieGateway
+from gateway.gateway import UserGateway, MovieGateway, ProjectionGateway
 from views_constants import INVALID_CHOICE_RETURNED_VALUE, CHOICE_FOR_LOGIN_IN_CHOOSE_LOGIN_OR_SIGNUP, CHOICE_FOR_SIGNUP_IN_CHOOSE_LOGIN_OR_SIGNUP
-from models import UserModel, MovieModel
+from models import UserModel, MovieModel, ProjectionModel
 
 class UserController:
     def __init__(self):
@@ -33,3 +33,23 @@ class MovieController:
             rating = movie[2]
             movies.append(MovieModel(id, name, rating))
         return movies
+
+
+class ProjectionController:
+    def __init__(self):
+        self.gateway = ProjectionGateway()
+
+    def show_projection(self, movie, date):
+        if date == '':
+            projections_selected = self.gateway.select_projections_for_given_movie(movie)
+            projections = []
+            for projection in projections_selected:
+                id = projection[0]
+                movie_id = projection[1]
+                type = projection[2]
+                date = projection[3]
+                time = projection[4]
+                projections.append(ProjectionModel(id, movie_id, type, date, time))
+            return projections
+        else:
+            self.gateway.select_projections_for_given_movie_and_date()
