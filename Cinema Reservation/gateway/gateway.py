@@ -1,6 +1,6 @@
 from models import UserModel
 from database import Database
-from queries import select_user_by_user_name, insert_user_in_user_table, select_all_movies_in_movie_table
+from queries import select_user_by_user_name, insert_user_in_user_table, select_all_movies_in_movie_table, select_all_projections_for_movie, select_all_projections_for_movie_and_date
 
 
 class UserGateway:
@@ -36,6 +36,20 @@ class MovieGateway:
 
     def select_all_movies(self):
         self.db.cursor.execute(select_all_movies_in_movie_table)
-        selected_movies = self.db.fetchall()
+        selected_movies = self.db.cursor.fetchall()
         self.db.commit()
         return selected_movies
+
+
+class ProjectionGateway:
+    def __init__(self):
+        self.db = Database()
+
+    def select_projections_for_given_movie_and_date(self, movie, date=None):
+        if date is None:
+            self.db.cursor.execute(select_all_projections_for_movie, (movie,))
+        else:
+            self.db.cursor.execute(select_all_projections_for_movie_and_date, (movie, date))
+        projections = self.db.cursor.fetchall()
+        self.db.commit()
+        return projections

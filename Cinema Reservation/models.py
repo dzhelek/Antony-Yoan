@@ -29,3 +29,19 @@ class UserModel:
 
     def __str__(self):
         return f'{self.id} | {self.username} | {self.email} | {self.password}'
+
+
+class MovieModel:
+    def __init__(self, id, name, rating):
+        self.id = id
+        self.name = name
+        self.rating = rating
+
+
+class ProjectionModel:
+    def __init__(self, id, movie_id, type, date, time):
+        self.id = id
+        self.movie_id = movie_id
+        self.type = type
+        self.date = date
+        self.time = time

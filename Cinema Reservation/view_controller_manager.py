@@ -1,5 +1,5 @@
-from views import UserViews, MovieViews
-from controllers import UserController, MovieController
+from views import UserViews, MovieViews, ProjectionViews
+from controllers import UserController, MovieController, ProjectionController
 from models import UserModel
 
 
@@ -9,6 +9,8 @@ class ViewControllerManager:
         self.user_controllers = UserController()
         self.movie_views = MovieViews()
         self.movie_controllers = MovieController()
+        self.projection_views = ProjectionViews()
+        self.projection_controllers = ProjectionController()
 
     def manage_entering_system_views_and_controllers(self):
         is_system_entered = False
@@ -46,8 +48,18 @@ class ViewControllerManager:
             if command == 'help':
                 self.user_views.logged_user_help_view()
             elif command == 'show movies':
-                self.user_controllers.show_movies()
-                # self.views.show_movies_view()
+                all_movies = self.movie_controllers.show_movies()
+                self.movie_views.show_all_view(all_movies)
+            elif command == 'show movie projections':
+                entered_data = self.projection_views.choose_movie_and_date()
+                movie = entered_data[0]
+                date = entered_data[1]
+                try:
+                    projections = self.projection_controllers.show_projection(movie, date)
+                    self.projection_views.show_all_projections(projections)
+                except Exception as e:
+                    print(str(e))
+
             elif command == 'exit':
                 raise SystemExit
             else:
@@ -69,3 +81,5 @@ class ViewControllerManager:
 
     def release_resources(self):
         self.user_controllers.gateway.db.close()
+        self.movie_controllers.gateway.db.close()
+        self.projection_controllers.gateway.db.close()
