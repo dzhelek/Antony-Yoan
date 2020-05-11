@@ -6,31 +6,29 @@ from models import UserModel
 class TestValidatePassword(unittest.TestCase):
     def test_password_shorter_than_eight_symbols_returns_false(self):
         password = '1234567'
+        message = 'password must be min 8 characters long'
 
-        result = UserModel.validate_password(password)
-
-        self.assertFalse(result, 'shorter than eight')
+        with self.assertRaises(ValueError, msg=message):
+            UserModel.validate_password(password)
 
     def test_long_password_with_no_capital_letters_returns_false(self):
         password = '12345678'
+        message = 'password must contain a capital letter'
 
-        result = UserModel.validate_password(password)
-
-        self.assertFalse(result, 'no capital letters')
+        with self.assertRaises(ValueError, msg=message):
+            UserModel.validate_password(password)
 
     def test_long_password_with_capital_letter_without_special_symbols(self):
         password = '12345678A'
+        message = 'password must contain a special symbol'
 
-        result = UserModel.validate_password(password)
-
-        self.assertFalse(result, 'no special symbols')
+        with self.assertRaises(ValueError, msg=message):
+            UserModel.validate_password(password)
 
     def test_password_with_eigh_symbols_with_one_capital_and_one_special(self):
         password = 'A12$4567'
 
-        result = UserModel.validate_password(password)
-
-        self.assertTrue(result, 'the password is correct')
+        UserModel.validate_password(password)
 
 
 class TestValidateEmail(unittest.TestCase):

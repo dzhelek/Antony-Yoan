@@ -22,10 +22,13 @@ class UserModel:
             has_capital_letter = compile('[A-Z]')
             has_special_symbol = compile(r'[\W\S\D]')
 
-            if match(has_capital_letter, password) and\
-               match(has_special_symbol, password):
-                return True
-        return False
+            if not match(has_capital_letter, password):
+                raise ValueError('password must contain a capital letter')
+
+            if not match(has_special_symbol, password):
+                raise ValueError('password must contain a special symbol')
+        else:
+            raise ValueError('password must be min 8 characters long')
 
     def __str__(self):
         return f'{self.id} | {self.username} | {self.email} | {self.password}'
