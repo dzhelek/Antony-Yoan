@@ -35,29 +35,27 @@ class TestValidateEmail(unittest.TestCase):
     def test_email_without_at_symbol_returns_false(self):
         email = 'example.example.com'
 
-        result = UserModel.validate_email(email)
-
-        self.assertFalse(result)
+        with self.assertRaises(ValueError):
+            UserModel.validate_email(email)
 
     def test_email_with_at_symbol_but_unvalid_returns_false(self):
         email1 = 'example@example@com'
         email2 = 'example@'
         # email3 = '@example.com'
 
-        result1 = UserModel.validate_email(email1)
-        result2 = UserModel.validate_email(email2)
-        # result3 = UserModel.validate_email(email3)
+        with self.assertRaises(ValueError):
+            UserModel.validate_email(email1)
 
-        self.assertFalse(result1)
-        self.assertFalse(result2)
-        # self.assertFalse(result3)
+        with self.assertRaises(ValueError):
+            UserModel.validate_email(email2)
+
+        # with self.assertRaises(ValueError):
+        #     UserModel.validate_email(email3)
 
     def test_with_correct_input_returns_true(self):
         email = 'name@example.com'
 
-        result = UserModel.validate_email(email)
-
-        self.assertTrue(result)
+        UserModel.validate_email(email)
 
 
 if __name__ == '__main__':

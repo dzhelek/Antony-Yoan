@@ -11,10 +11,8 @@ class UserModel:
 
     @staticmethod
     def validate_email(email):
-        if '@' in parseaddr(email)[1]:
-            return True
-        else:
-            return False
+        if not '@' in parseaddr(email)[1]:
+            raise ValueError('invalid email address')
 
     @staticmethod
     def validate_password(password):
