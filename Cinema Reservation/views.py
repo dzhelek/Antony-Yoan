@@ -12,8 +12,8 @@ def clear_screen():
 
 
 class UserViews:
-    def __init__(self):
-        self.controller = UserController()
+    # def __init__(self):
+    #     self.controller = UserController()
 
     def console_read_command_view(self):
         command = input('> ')

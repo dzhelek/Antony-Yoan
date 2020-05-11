@@ -4,7 +4,6 @@ from random import randint
 from gateway.gateway import UserGateway, MovieGateway, ProjectionGateway
 from models import UserModel, MovieModel, ProjectionModel
 from settings import HASHING_TIMES
-from views_constants import INVALID_CHOICE_RETURNED_VALUE, CHOICE_FOR_LOGIN_IN_CHOOSE_LOGIN_OR_SIGNUP, CHOICE_FOR_SIGNUP_IN_CHOOSE_LOGIN_OR_SIGNUP
 
 
 class UserController:
