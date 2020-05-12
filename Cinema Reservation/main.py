@@ -1,7 +1,7 @@
 import os
-from settings import DB_NAME
+# from settings import DB_NAME
 from setup_database import setup_database
-from views import UserViews, clear_screen
+from views import clear_screen
 from view_controller_manager import ViewControllerManager
 
 

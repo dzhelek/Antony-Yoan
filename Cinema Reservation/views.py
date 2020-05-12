@@ -1,9 +1,10 @@
 from getpass import getpass
 import subprocess
 
-from controllers import UserController
+from models import UserModel
 from views_constants import *
 
+from tabulate import tabulate
 from termcolor import colored
 
 
@@ -12,20 +13,15 @@ def clear_screen():
 
 
 class UserViews:
-    def __init__(self):
-        self.controller = UserController()
-
     def console_read_command_view(self):
         command = input('> ')
         return command
 
     def guest_user_help_view(self):
         print('\nlist of commands:\n')
-        print('exit')
-        print('help')
-        print('login')
-        print('signup')
-        print()
+        print(colored('exit\nhelp\n', COLOR_IN_EXIT))
+        print(colored('''login
+signup''', COMMAND_COLOR))
 
     def error_view(self, error):
         print(error)
@@ -34,54 +30,33 @@ class UserViews:
         print(f'Hello, {user.username}')
 
     def logged_user_help_view(self):
-        print('list of commands:')
-        print('show movies')
-        print('show movie projections')
-        print('make reservation')
-        print('exit')
-        print('help\n')
-
-    def show_movies_view():
-        pass
-
-    def choose_login_or_signup(self):
-        print('Enter:')
-        print(f'      {CHOICE_FOR_LOGIN_IN_CHOOSE_LOGIN_OR_SIGNUP} - login')
-        print(f'      {CHOICE_FOR_SIGNUP_IN_CHOOSE_LOGIN_OR_SIGNUP} - signup')
-        is_entering_system_successful = False
-        while not is_entering_system_successful:
-            choice = input(colored('Input: ', COLOR_IN_LOGIN_OR_SIGNUP))
-            if choice == CHOICE_FOR_LOGIN_IN_CHOOSE_LOGIN_OR_SIGNUP:
-                self.login()
-                is_entering_system_successful = True
-            elif choice == CHOICE_FOR_SIGNUP_IN_CHOOSE_LOGIN_OR_SIGNUP:
-                self.signup()
-                is_entering_system_successful = True
-            else:
-                print(colored('INVALID OPTION', INVALID_OPTION_TEXT_COLOR))
+        print('\nlist of commands:\n')
+        print(colored('exit\nhelp\n', COLOR_IN_EXIT))
+        print(colored('''make reservation
+show movie projections <movie_id> [<date>]
+show movies''', COMMAND_COLOR))
 
     def login(self):
         print('----- LOG IN -----')
-        username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
-        password = getpass(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
+        username = input(colored('Username: ', INPUT_COLOR))
+        password = getpass(colored('Password: ', INPUT_COLOR))
         return (username, password)
 
     def signup(self):
         print('----- SIGH UP -----')
-        username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
-        email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
-        password = getpass(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
-        return (username, email, password)
-
-    def help(self):
-        print('----- HELP -----')
-        print('Available commands:\n')
-        print(colored('show movies', COMMAND_COLOR_IN_HELP), ' - show all movies ordered by rating')
-        print(colored('show movie projections <movie_id> [<date>]', COMMAND_COLOR_IN_HELP),
-                      ' - show all projections of a given movie for the given date(optional)')
-        print(colored('make reservation', COMMAND_COLOR_IN_HELP))
-        print(colored('cancel reservation <name>', COMMAND_COLOR_IN_HELP))
-        print(colored('exit', COMMAND_COLOR_IN_HELP))
+        try:
+            username = input(colored('Username: ', INPUT_COLOR))
+            email = input(colored('Email: ', INPUT_COLOR))
+            UserModel.validate_email(email)
+            password = getpass(colored('Password: ', INPUT_COLOR))
+            UserModel.validate_password(password)
+            confirm = getpass(colored('Confirm password: ', INPUT_COLOR))
+            if confirm != password:
+                raise ValueError('password is not the same')
+        except ValueError as err:
+            return err
+        else:
+            return username, email, password
 
     def exit(self, username='guest'):
         print(colored(f'Goodbye, {username}!', COLOR_IN_EXIT, attrs=['bold']))
@@ -89,9 +64,13 @@ class UserViews:
 
 class MovieViews:
     def show_all_view(self, movies):
+        table = []
         print()
         for movie in movies:
-            print(movie.name + ' ' * (60 - len(movie.name)) + str(movie.rating))
+            table.append([colored(movie.id, ID_COLOR),
+                          movie.name, movie.rating])
+        print(tabulate(table,
+                       headers=[colored('id', ID_COLOR), 'name', 'rating']))
 
 
 class ProjectionViews:
@@ -104,8 +83,13 @@ class ProjectionViews:
         print()
         if projections == []:
             print('No projections available')
-        for projection in projections:
-            print(projection.type + ' ' + projection.date + ' ' + projection.time)
+        else:
+            table = []
+            for projection in projections:
+                table.append([colored(projection.id, ID_COLOR),
+                              projection.type, projection.date, projection.time])
+            print(tabulate(table, headers=[colored('id', ID_COLOR),
+                                           'type', 'date', 'time']))
 
 
 if __name__ == '__main__':

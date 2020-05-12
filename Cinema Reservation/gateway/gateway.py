@@ -46,8 +46,8 @@ class ProjectionGateway:
     def __init__(self):
         self.db = Database()
 
-    def select_projections_for_given_movie_and_date(self, movie, date=None):
-        if date is None:
+    def select_projections_for_given_movie_and_date(self, movie, date):
+        if date == '':
             self.db.cursor.execute(select_all_projections_for_movie, (movie,))
         else:
             self.db.cursor.execute(select_all_projections_for_movie_and_date, (movie, date))
