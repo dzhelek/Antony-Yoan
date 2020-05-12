@@ -2,7 +2,8 @@ from sqlite3 import Error
 
 from controllers import UserController, MovieController, ProjectionController
 from models import UserModel
-from views import UserViews, MovieViews, ProjectionViews
+from views import (UserViews, MovieViews, ProjectionViews,
+                   ReservationViews, system_input)
 
 
 class ViewControllerManager:
@@ -13,6 +14,7 @@ class ViewControllerManager:
         self.movie_controllers = MovieController()
         self.projection_views = ProjectionViews()
         self.projection_controllers = ProjectionController()
+        self.reservation_views = ReservationViews()
 
     def manage_entering_system_views_and_controllers(self):
         is_system_entered = False
@@ -43,6 +45,14 @@ class ViewControllerManager:
         except ValueError as err:
             self.user_views.error_view(str(err))
 
+    def show_movies(self):
+        all_movies = self.movie_controllers.show_movies()
+        self.movie_views.show_all_view(all_movies)
+
+    def show_movie_projections(self, movie, date=''):
+        projections = self.projection_controllers.show_projection(movie, date)
+        self.projection_views.show_all_projections(projections)
+
     def manage_user_commands_views_and_controllers(self, user):
         self.user_views.welcome_user(user)
         while True:
@@ -50,21 +60,26 @@ class ViewControllerManager:
             if command == 'help':
                 self.user_views.logged_user_help_view()
             elif command == 'show movies':
-                all_movies = self.movie_controllers.show_movies()
-                self.movie_views.show_all_view(all_movies)
+                self.show_movies()
             elif command.startswith('show movie projections'):
                 # entered_data = self.projection_views.choose_movie_and_date()
-                entered_data = command.replace('show movie projections', '').split()
+                entered_data =\
+                    command.replace('show movie projections', '').split()
                 movie = entered_data[0]
                 if len(entered_data) == 2:
                     date = entered_data[1]
                 else:
                     date = ''
                 try:
-                    projections = self.projection_controllers.show_projection(movie, date)
-                    self.projection_views.show_all_projections(projections)
+                    self.show_movie_projections(movie, date)
                 except Exception as e:
                     print(str(e))
+            elif command == 'make reservation':
+                system_input('number of seats')
+                self.show_movies()
+                movie = system_input('movie')
+                self.show_movie_projections(movie)
+                projection = system_input('projection')
 
             elif command == 'exit':
                 raise SystemExit
