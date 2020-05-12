@@ -21,7 +21,7 @@ class UserViews:
         print('\nlist of commands:\n')
         print(colored('exit\nhelp\n', COLOR_IN_EXIT))
         print(colored('''login
-signup''', COMMAND_COLOR_IN_HELP))
+signup''', COMMAND_COLOR))
 
     def error_view(self, error):
         print(error)
@@ -34,7 +34,7 @@ signup''', COMMAND_COLOR_IN_HELP))
         print(colored('exit\nhelp\n', COLOR_IN_EXIT))
         print(colored('''make reservation
 show movie projections <movie_id> [<date>]
-show movies''', COMMAND_COLOR_IN_HELP))
+show movies''', COMMAND_COLOR))
 
     def login(self):
         print('----- LOG IN -----')
@@ -83,12 +83,13 @@ class ProjectionViews:
         print()
         if projections == []:
             print('No projections available')
-        table = []
-        for projection in projections:
-            table.append([colored(projection.id, ID_COLOR),
-                          projection.type, projection.date, projection.time])
-        print(tabulate(table, headers=[colored('id', ID_COLOR),
-                                       'type', 'date', 'time']))
+        else:
+            table = []
+            for projection in projections:
+                table.append([colored(projection.id, ID_COLOR),
+                              projection.type, projection.date, projection.time])
+            print(tabulate(table, headers=[colored('id', ID_COLOR),
+                                           'type', 'date', 'time']))
 
 
 if __name__ == '__main__':
