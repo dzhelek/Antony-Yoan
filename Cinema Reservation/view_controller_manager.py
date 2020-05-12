@@ -73,19 +73,22 @@ class ViewControllerManager:
 
     def manage_signup_view_and_controller(self):
         signup_data = self.user_views.signup()
-        username_entered = signup_data[0]
-        email_entered = signup_data[1]
-        password_entered = signup_data[2]
-        try:
-            self.user_controllers.sign_user(username_entered, email_entered, password_entered)
-            user_data = self.user_controllers.select_user_by_username(username_entered, password_entered)
-            return UserModel(user_data[0], user_data[1], user_data[2], user_data[3])
-        except Error as err:
-            error_message_fields = str(err).split('.')
-            message_to_print = f'User with this {error_message_fields[1]} already exists!'
-            self.user_views.error_view(message_to_print)
-        except ValueError as err:
-            self.user_views.error_view(err)
+        if isinstance(signup_data, ValueError):
+            self.user_views.error_view(signup_data)
+        else:
+            username_entered = signup_data[0]
+            email_entered = signup_data[1]
+            password_entered = signup_data[2]
+            try:
+                self.user_controllers.sign_user(username_entered, email_entered, password_entered)
+                user_data = self.user_controllers.select_user_by_username(username_entered, password_entered)
+                return UserModel(user_data[0], user_data[1], user_data[2], user_data[3])
+            except Error as err:
+                error_message_fields = str(err).split('.')
+                message_to_print = f'User with this {error_message_fields[1]} already exists!'
+                self.user_views.error_view(message_to_print)
+            except ValueError as err:
+                self.user_views.error_view(err)
 
     def release_resources(self):
         self.user_controllers.gateway.db.close()

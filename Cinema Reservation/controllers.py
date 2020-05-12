@@ -20,9 +20,6 @@ class UserController:
         raise ValueError('Invalid username or password')  
 
     def sign_user(self, username, email, password):
-        email_is_valid = UserModel.validate_email(email)
-        password_is_valid = UserModel.validate_password(password)
-
         password, salt = self.get_hashed_pass_and_salt(password)
         self.gateway.update_table_with_user_data(username, email,
                                                  password, salt)

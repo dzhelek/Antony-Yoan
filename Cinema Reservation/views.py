@@ -1,6 +1,7 @@
 from getpass import getpass
 import subprocess
 
+from models import UserModel
 from views_constants import *
 
 from tabulate import tabulate
@@ -37,16 +38,25 @@ show movies''', COMMAND_COLOR_IN_HELP))
 
     def login(self):
         print('----- LOG IN -----')
-        username = input(colored('Username: ', FIELD_COLOR_IN_LOG_IN))
-        password = getpass(colored('Password: ', FIELD_COLOR_IN_LOG_IN))
+        username = input(colored('Username: ', INPUT_COLOR))
+        password = getpass(colored('Password: ', INPUT_COLOR))
         return (username, password)
 
     def signup(self):
         print('----- SIGH UP -----')
-        username = input(colored('Username: ', FIELD_COLOR_IN_SIGN_UP))
-        email = input(colored('Email: ', FIELD_COLOR_IN_SIGN_UP))
-        password = getpass(colored('Password: ', FIELD_COLOR_IN_SIGN_UP))
-        return (username, email, password)
+        try:
+            username = input(colored('Username: ', INPUT_COLOR))
+            email = input(colored('Email: ', INPUT_COLOR))
+            UserModel.validate_email(email)
+            password = getpass(colored('Password: ', INPUT_COLOR))
+            UserModel.validate_password(password)
+            confirm = getpass(colored('Confirm password: ', INPUT_COLOR))
+            if confirm != password:
+                raise ValueError('password is not the same')
+        except ValueError as err:
+            return err
+        else:
+            return username, email, password
 
     def exit(self, username='guest'):
         print(colored(f'Goodbye, {username}!', COLOR_IN_EXIT, attrs=['bold']))
@@ -77,9 +87,9 @@ class ProjectionViews:
         for projection in projections:
             table.append([colored(projection.id, ID_COLOR),
                           projection.type, projection.date, projection.time])
-            # print(projection.type + ' ' + projection.date + ' ' + projection.time)
         print(tabulate(table, headers=[colored('id', ID_COLOR),
                                        'type', 'date', 'time']))
+
 
 if __name__ == '__main__':
     view = UserViews()
