@@ -3,6 +3,7 @@ import subprocess
 
 from views_constants import *
 
+from tabulate import tabulate
 from termcolor import colored
 
 
@@ -31,7 +32,7 @@ signup''', COMMAND_COLOR_IN_HELP))
         print('\nlist of commands:\n')
         print(colored('exit\nhelp\n', COLOR_IN_EXIT))
         print(colored('''make reservation
-show movie projections
+show movie projections <movie_id> [<date>]
 show movies''', COMMAND_COLOR_IN_HELP))
 
     def login(self):
@@ -53,9 +54,13 @@ show movies''', COMMAND_COLOR_IN_HELP))
 
 class MovieViews:
     def show_all_view(self, movies):
+        table = []
         print()
         for movie in movies:
-            print(movie.name + ' ' * (60 - len(movie.name)) + str(movie.rating))
+            table.append([colored(movie.id, ID_COLOR),
+                          movie.name, movie.rating])
+        print(tabulate(table,
+                       headers=[colored('id', ID_COLOR), 'name', 'rating']))
 
 
 class ProjectionViews:
@@ -68,9 +73,13 @@ class ProjectionViews:
         print()
         if projections == []:
             print('No projections available')
+        table = []
         for projection in projections:
-            print(projection.type + ' ' + projection.date + ' ' + projection.time)
-
+            table.append([colored(projection.id, ID_COLOR),
+                          projection.type, projection.date, projection.time])
+            # print(projection.type + ' ' + projection.date + ' ' + projection.time)
+        print(tabulate(table, headers=[colored('id', ID_COLOR),
+                                       'type', 'date', 'time']))
 
 if __name__ == '__main__':
     view = UserViews()

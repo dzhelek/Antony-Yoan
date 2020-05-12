@@ -52,10 +52,14 @@ class ViewControllerManager:
             elif command == 'show movies':
                 all_movies = self.movie_controllers.show_movies()
                 self.movie_views.show_all_view(all_movies)
-            elif command == 'show movie projections':
-                entered_data = self.projection_views.choose_movie_and_date()
+            elif command.startswith('show movie projections'):
+                # entered_data = self.projection_views.choose_movie_and_date()
+                entered_data = command.replace('show movie projections', '').split()
                 movie = entered_data[0]
-                date = entered_data[1]
+                if len(entered_data) == 2:
+                    date = entered_data[1]
+                else:
+                    date = ''
                 try:
                     projections = self.projection_controllers.show_projection(movie, date)
                     self.projection_views.show_all_projections(projections)
