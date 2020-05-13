@@ -1,4 +1,4 @@
-
+from .utils import get_hash, get_hashed_pass_and_salt
 from .gateway import UserGateway, MovieGateway, ProjectionGateway
 
 
@@ -9,14 +9,14 @@ class UserController:
     def log_user(self, username, entered_password):
         user = self.gateway.search_user_by_name(username)
         if user is not None:
-            entered_password = self.get_hash(entered_password, user.salt)
+            entered_password = get_hash(entered_password, user.salt)
             if user.password == entered_password:
                 return user
         else:
             raise ValueError('Invalid username or password')
 
     def sign_user(self, username, email, password):
-        password, salt = self.get_hashed_pass_and_salt(password)
+        password, salt = get_hashed_pass_and_salt(password)
         self.gateway.update_table_with_user_data(username, email,
                                                  password, salt)
 

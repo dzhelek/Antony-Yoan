@@ -8,8 +8,6 @@ from settings import DB_NAME, SU_NAME, SU_PASS
 class Database:
     def __init__(self):
         self.engine = create_engine(f"sqlite:///{DB_NAME}")
-
-    def make_session(self):
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
 
