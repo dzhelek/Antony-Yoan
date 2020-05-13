@@ -27,4 +27,3 @@ class Database:
 
     def create(self):
         Base.metadata.create_all(self.engine)
-        self.commit()

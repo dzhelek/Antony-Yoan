@@ -1,5 +1,5 @@
 from models import User
-from database import Database
+from .database import Database
 from queries import select_user_by_user_name, insert_user_in_user_table, select_all_movies_in_movie_table, select_all_projections_for_movie, select_all_projections_for_movie_and_date
 
 

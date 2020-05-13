@@ -1,6 +1,5 @@
 
-from gateway.gateway import UserGateway, MovieGateway, ProjectionGateway
-from models import UserModel, MovieModel, ProjectionModel
+from .gateway import UserGateway, MovieGateway, ProjectionGateway
 
 
 class UserController:
