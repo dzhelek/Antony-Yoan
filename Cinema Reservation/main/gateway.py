@@ -1,6 +1,5 @@
 from models import User
-from database import Database
-from queries import select_user_by_user_name, insert_user_in_user_table, select_all_movies_in_movie_table, select_all_projections_for_movie, select_all_projections_for_movie_and_date
+from .database import Database
 
 
 class UserGateway:
@@ -17,7 +16,7 @@ class UserGateway:
         # return selected_user_data
 
     def update_table_with_user_data(self, username, email, password, salt):
-        self.db.session.add(User(username=username, email=email, password=password, salt=salt))
+        self.db.add(User(username=username, email=email, password=password, salt=salt))
         self.db.commit()
 
 
