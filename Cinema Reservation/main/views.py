@@ -1,7 +1,7 @@
 from getpass import getpass
 import subprocess
 
-from models import UserModel
+from models import User
 from views_constants import *
 
 from tabulate import tabulate
@@ -55,9 +55,9 @@ show movies''', COMMAND_COLOR))
         try:
             username = system_input('Username')
             email = system_input('Email')
-            UserModel.validate_email(email)
+            User.validate_email(email)
             password = system_input('Password', secret=True)
-            UserModel.validate_password(password)
+            User.validate_password(password)
             confirm = system_input('Confirm password', secret=True)
             if confirm != password:
                 raise ValueError('password is not the same')
