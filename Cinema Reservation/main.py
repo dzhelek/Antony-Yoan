@@ -1,8 +1,7 @@
 import os
-# from settings import DB_NAME
 from setup_database import setup_database
-from views import clear_screen
-from view_controller_manager import ViewControllerManager
+from main.views import clear_screen
+from main.view_controller_manager import ViewControllerManager
 
 
 def welcome():

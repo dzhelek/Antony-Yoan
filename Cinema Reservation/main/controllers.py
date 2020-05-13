@@ -1,8 +1,8 @@
 from hashlib import sha512
 from random import randint
 
-from gateway.gateway import UserGateway, MovieGateway, ProjectionGateway
-from models import UserModel, MovieModel, ProjectionModel
+from .gateway import UserGateway, MovieGateway, ProjectionGateway
+from .models import User, Movie, Projection
 from settings import HASHING_TIMES
 
 
@@ -11,13 +11,13 @@ class UserController:
         self.gateway = UserGateway()
 
     def log_user(self, username, entered_password):
-        user_data = self.gateway.search_user_by_name(username)
-        if user_data is not None:
-            password, salt = user_data[3], user_data[4]
-            entered_password = self.get_hash(entered_password, salt)
-            if password == entered_password:
-                return UserModel(user_data[0], user_data[1], user_data[2], password)
-        raise ValueError('Invalid username or password')  
+        user = self.gateway.search_user_by_name(username)
+        if user is not None:
+            entered_password = self.get_hash(entered_password, user.salt)
+            if user.password == entered_password:
+                return user
+        else:
+            raise ValueError('Invalid username or password')  
 
     def sign_user(self, username, email, password):
         password, salt = self.get_hashed_pass_and_salt(password)

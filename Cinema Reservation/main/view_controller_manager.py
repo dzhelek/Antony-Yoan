@@ -1,8 +1,7 @@
 from sqlite3 import Error
-
-from controllers import UserController, MovieController, ProjectionController
-from models import UserModel
-from views import (UserViews, MovieViews, ProjectionViews,
+from .controllers import UserController, MovieController, ProjectionController
+from .models import User
+from .views import (UserViews, MovieViews, ProjectionViews,
                    ReservationViews, system_input)
 
 
@@ -96,8 +95,8 @@ class ViewControllerManager:
             password_entered = signup_data[2]
             try:
                 self.user_controllers.sign_user(username_entered, email_entered, password_entered)
-                user_data = self.user_controllers.select_user_by_username(username_entered, password_entered)
-                return UserModel(user_data[0], user_data[1], user_data[2], user_data[3])
+                user = self.user_controllers.select_user_by_username(username_entered, password_entered)
+                return user
             except Error as err:
                 error_message_fields = str(err).split('.')
                 message_to_print = f'User with this {error_message_fields[1]} already exists!'
