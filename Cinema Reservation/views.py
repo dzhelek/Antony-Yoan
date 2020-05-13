@@ -12,6 +12,14 @@ def clear_screen():
     subprocess.call('clear')
 
 
+def system_input(text, secret=False):
+    if secret:
+        inputing = getpass
+    else:
+        inputing = input
+    return inputing(colored(f'{text}: ', INPUT_COLOR))
+
+
 class UserViews:
     def console_read_command_view(self):
         command = input('> ')
@@ -38,19 +46,19 @@ show movies''', COMMAND_COLOR))
 
     def login(self):
         print('----- LOG IN -----')
-        username = input(colored('Username: ', INPUT_COLOR))
-        password = getpass(colored('Password: ', INPUT_COLOR))
-        return (username, password)
+        username = system_input('Username')
+        password = system_input('Password', secret=True)
+        return username, password
 
     def signup(self):
         print('----- SIGH UP -----')
         try:
-            username = input(colored('Username: ', INPUT_COLOR))
-            email = input(colored('Email: ', INPUT_COLOR))
+            username = system_input('Username')
+            email = system_input('Email')
             UserModel.validate_email(email)
-            password = getpass(colored('Password: ', INPUT_COLOR))
+            password = system_input('Password', secret=True)
             UserModel.validate_password(password)
-            confirm = getpass(colored('Confirm password: ', INPUT_COLOR))
+            confirm = system_input('Confirm password', secret=True)
             if confirm != password:
                 raise ValueError('password is not the same')
         except ValueError as err:
@@ -74,10 +82,10 @@ class MovieViews:
 
 
 class ProjectionViews:
-    def choose_movie_and_date(self):
-        movie = input(colored('Movie: ', 'blue'))
-        date = input(colored('Date: ', 'blue'))
-        return (movie, date)
+    # def choose_movie_and_date(self):
+    #     movie = system_input('Movie')
+    #     date = system_input('Date')
+    #     return movie, date
 
     def show_all_projections(self, projections):
         print()
@@ -87,9 +95,14 @@ class ProjectionViews:
             table = []
             for projection in projections:
                 table.append([colored(projection.id, ID_COLOR),
-                              projection.type, projection.date, projection.time])
+                              projection.type, projection.date,
+                              projection.time])
             print(tabulate(table, headers=[colored('id', ID_COLOR),
                                            'type', 'date', 'time']))
+
+
+class ReservationViews:
+    pass
 
 
 if __name__ == '__main__':
