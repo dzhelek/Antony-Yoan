@@ -11,8 +11,10 @@ class UserGateway:
         self.db.commit()
         return user
 
-    def update_table_with_user_data(self, username, email, password, salt):
-        self.db.add(User(username=username, email=email, password=password, salt=salt))
+    def update_table_with_user_data(self, username, email,
+                                    password, salt, superuser):
+        self.db.add(User(username=username, email=email, password=password,
+                         salt=salt, superuser=True))
         self.db.commit()
 
 

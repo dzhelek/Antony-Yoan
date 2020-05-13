@@ -13,10 +13,10 @@ class UserController:
                 return user
         raise ValueError('Invalid username or password')
 
-    def sign_user(self, username, email, password):
+    def sign_user(self, username, email, password, superuser=False):
         password, salt = get_hashed_pass_and_salt(password)
         self.gateway.update_table_with_user_data(username, email,
-                                                 password, salt)
+                                                 password, salt, superuser)
 
     def select_user_by_username(self, username, password):
         return self.gateway.search_user_by_name(username)

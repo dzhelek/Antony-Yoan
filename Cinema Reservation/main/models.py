@@ -19,25 +19,6 @@ class User(Base):
     salt = Column(String)
     superuser = Column(Boolean)
 
-    @staticmethod
-    def validate_email(email):
-        if not '@' in parseaddr(email)[1]:
-            raise ValueError('invalid email address')
-
-    @staticmethod
-    def validate_password(password):
-        if len(password) > 7:
-            has_capital_letter = compile('[A-Z]')
-            has_special_symbol = compile(r'[\W\S\D]')
-
-            if not match(has_capital_letter, password):
-                raise ValueError('password must contain a capital letter')
-
-            if not match(has_special_symbol, password):
-                raise ValueError('password must contain a special symbol')
-        else:
-            raise ValueError('password must be min 8 characters long')
-
     def __str__(self):
         return f'{self.id} | {self.username} | {self.email} | {self.password}'
 
