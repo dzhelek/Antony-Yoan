@@ -1,4 +1,4 @@
-from models import User
+from models import User, Movie, Projection
 from database import Database
 from queries import select_user_by_user_name, insert_user_in_user_table, select_all_movies_in_movie_table, select_all_projections_for_movie, select_all_projections_for_movie_and_date
 
@@ -11,10 +11,6 @@ class UserGateway:
         user = self.db.session.query(User).filter(User.username == username).first()
         self.db.commit()
         return user
-        # self.db.cursor.execute(select_user_by_user_name, (username,))
-        # selected_user_data = self.db.cursor.fetchone()
-        # self.db.commit()
-        # return selected_user_data
 
     def update_table_with_user_data(self, username, email, password, salt):
         self.db.session.add(User(username=username, email=email, password=password, salt=salt))
@@ -26,10 +22,9 @@ class MovieGateway:
         self.db = Database()
 
     def select_all_movies(self):
-        self.db.cursor.execute(select_all_movies_in_movie_table)
-        selected_movies = self.db.cursor.fetchall()
+        movies = self.db.session.query(Movie).all()
         self.db.commit()
-        return selected_movies
+        return movies
 
 
 class ProjectionGateway:
@@ -37,10 +32,11 @@ class ProjectionGateway:
         self.db = Database()
 
     def select_projections_for_given_movie_and_date(self, movie, date):
+        projections = []
+        print(movie)
         if date == '':
-            self.db.cursor.execute(select_all_projections_for_movie, (movie,))
+            projections = self.db.session.query(Movie.projections).filter(Movie.id == movie).all()
         else:
-            self.db.cursor.execute(select_all_projections_for_movie_and_date, (movie, date))
-        projections = self.db.cursor.fetchall()
+            projections = self.db.session.query(Movie.projections).filter(Movie.id == movie, Movie.date == date).all()
         self.db.commit()
         return projections
