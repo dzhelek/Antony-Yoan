@@ -1,9 +1,6 @@
-from hashlib import sha512
-from random import randint
 
-from .gateway import UserGateway, MovieGateway, ProjectionGateway
-from .models import User, Movie, Projection
-from settings import HASHING_TIMES
+from gateway.gateway import UserGateway, MovieGateway, ProjectionGateway
+from models import UserModel, MovieModel, ProjectionModel
 
 
 class UserController:
@@ -17,7 +14,7 @@ class UserController:
             if user.password == entered_password:
                 return user
         else:
-            raise ValueError('Invalid username or password')  
+            raise ValueError('Invalid username or password')
 
     def sign_user(self, username, email, password):
         password, salt = self.get_hashed_pass_and_salt(password)
@@ -26,23 +23,6 @@ class UserController:
 
     def select_user_by_username(self, username, password):
         return self.gateway.search_user_by_name(username)
-
-    @staticmethod
-    def get_hashed_pass_and_salt(password):
-        salt = ''.join(chr(randint(32, 126)) for i in range(16))
-        password += salt
-        for i in range(HASHING_TIMES):
-            password = sha512(password.encode()).hexdigest()
-
-        return password, salt
-
-    @staticmethod
-    def get_hash(password, salt):
-        password += salt
-        for i in range(HASHING_TIMES):
-            password = sha512(password.encode()).hexdigest()
-
-        return password
 
 
 class MovieController:
