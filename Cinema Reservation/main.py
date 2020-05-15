@@ -20,5 +20,8 @@ def start():
 
 
 if __name__ == '__main__':
-    setup_database()
+    try:
+        setup_database()
+    except Exception:
+        pass
     start()

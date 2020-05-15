@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from models import User, Movie, Projection, Reservation, Base
-from settings import DB_NAME, SU_NAME, SU_PASS
+from settings import DB_NAME
 
 
 class Database:
