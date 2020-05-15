@@ -1,5 +1,5 @@
 from models import User, Movie, Projection
-from database import Database
+from .database import Database
 
 
 class UserGateway:

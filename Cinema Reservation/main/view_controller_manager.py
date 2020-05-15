@@ -1,9 +1,10 @@
-from sqlite3 import Error
+# from sqlite3 import Error
 from .controllers import UserController, MovieController, ProjectionController
 from .models import User
 from .views import (UserViews, MovieViews, ProjectionViews,
                    ReservationViews, system_input)
-
+from sqlalchemy.exc import IntegrityError
+import re
 
 class ViewControllerManager:
     def __init__(self):
@@ -97,12 +98,18 @@ class ViewControllerManager:
                 self.user_controllers.sign_user(username_entered, email_entered, password_entered)
                 user = self.user_controllers.select_user_by_username(username_entered, password_entered)
                 return user
-            except Error as err:
-                error_message_fields = str(err).split('.')
-                message_to_print = f'User with this {error_message_fields[1]} already exists!'
-                self.user_views.error_view(message_to_print)
+            # except Error as err:
+            #     error_message_fields = str(err).split('.')
+            #     message_to_print = f'User with this {error_message_fields[1]} already exists!'
+            #     self.user_views.error_view(message_to_print)
             except ValueError as err:
                 self.user_views.error_view(err)
+            except IntegrityError as e:
+                not_unique_constaint = re.search(': [a-z]+.[a-z]+', str(e)).group(0)
+                error_message_fields = not_unique_constaint.split('.')
+                message_to_print = f'User with this {error_message_fields[1]} already exists!'
+                self.user_views.error_view(message_to_print)
+                self.user_controllers.gateway.db.session.rollback()
 
     def release_resources(self):
         self.user_controllers.gateway.db.close()
