@@ -29,14 +29,15 @@ class MovieController:
         self.gateway = MovieGateway()
 
     def show_movies(self):
-        movies_selected = self.gateway.select_all_movies()
-        movies = []
-        for movie in movies_selected:
-            id = movie[0]
-            name = movie[1]
-            rating = movie[2]
-            movies.append(MovieModel(id, name, rating))
-        return movies
+        # movies_selected = self.gateway.select_all_movies()
+        # movies = []
+        # for movie in movies_selected:
+        #     id = movie[0]
+        #     name = movie[1]
+        #     rating = movie[2]
+        #     movies.append(Movie(id, name, rating))
+        # return movies
+        return self.gateway.select_all_movies()
 
 
 class ProjectionController:
@@ -46,12 +47,12 @@ class ProjectionController:
     def show_projection(self, movie, date):
         projections_selected = self.gateway.select_projections_for_given_movie_and_date(movie, date)
 
-        projections = []
-        for projection in projections_selected:
-            id = projection[0]
-            movie_id = projection[1]
-            type = projection[2]
-            date = projection[3]
-            time = projection[4]
-            projections.append(ProjectionModel(id, movie_id, type, date, time))
-        return projections
+        # projections = []
+        # for projection in projections_selected:
+        #     id = projection[0]
+        #     movie_id = projection[1]
+        #     type = projection[2]
+        #     date = projection[3]
+        #     time = projection[4]
+        #     projections.append(ProjectionModel(id, movie_id, type, date, time))
+        return projections_selected
