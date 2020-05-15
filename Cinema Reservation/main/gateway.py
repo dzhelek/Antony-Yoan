@@ -1,4 +1,4 @@
-from models import User, Movie, Projection
+from models import User, Movie
 from .database import Database
 
 
@@ -23,7 +23,7 @@ class MovieGateway:
         self.db = Database()
 
     def select_all_movies(self):
-        movies = self.db.session.query(Movie).all()
+        movies = self.db.session.query(Movie).order_by(Movie.rating.desc()).all()
         self.db.commit()
         return movies
 
@@ -40,8 +40,8 @@ class ProjectionGateway:
         projections = []
         print(movie)
         if date == '':
-            projections = self.db.session.query(Movie.projections).filter(Movie.id == movie).all()
+            projections = self.db.session.query(Movie.projections).filter(Movie.id == movie).order_by(Movie.date).all()
         else:
-            projections = self.db.session.query(Movie.projections).filter(Movie.id == movie, Movie.date == date).all()
+            projections = self.db.session.query(Movie.projections).filter(Movie.id == movie, Movie.date == date).order_by(Movie.date).all()
         self.db.commit()
         return projections
