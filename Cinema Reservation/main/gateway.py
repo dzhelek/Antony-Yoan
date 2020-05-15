@@ -27,6 +27,10 @@ class MovieGateway:
         self.db.commit()
         return movies
 
+    def update_table_with_movie_data(self, name, rating):
+        self.db.add(Movie(name=name, rating=rating))
+        self.db.commit()
+
 
 class ProjectionGateway:
     def __init__(self):

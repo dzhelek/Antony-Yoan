@@ -29,6 +29,9 @@ class MovieController:
     def show_movies(self):
         return self.gateway.select_all_movies()
 
+    def add_movie(self, name, rating):
+        self.gateway.update_table_with_movie_data(name, rating)
+
 
 class ProjectionController:
     def __init__(self):
