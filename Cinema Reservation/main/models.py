@@ -11,12 +11,6 @@ Base = declarative_base()
 
 
 class User(Base):
-    # def __init__(self, id, username, email, password):
-    #     self.id = id
-    #     self.username = username
-    #     self.email = email
-    #     self.password = password
-
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True)
@@ -49,10 +43,6 @@ class User(Base):
 
 
 class Movie(Base):
-    # def __init__(self, id, name, rating):
-    #     self.id = id
-    #     self.name = name
-    #     self.rating = rating
     __tablename__ = 'movie'
     __table_args__ = (
         CheckConstraint('rating between 0 and 10'),
@@ -63,12 +53,6 @@ class Movie(Base):
 
 
 class Projection(Base):
-    # def __init__(self, id, movie_id, type, date, time):
-    #     self.id = id
-    #     self.movie_id = movie_id
-    #     self.type = type
-    #     self.date = date
-    #     self.time = time
     __tablename__ = 'projection'
     id = Column(Integer, primary_key=True)
     movie_id = Column(Integer, ForeignKey(Movie.id))
