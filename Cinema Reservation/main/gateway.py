@@ -1,5 +1,6 @@
-from models import User, Movie
+from models import User, Movie, Projection
 from .database import Database
+from .utils import get_datetime_object, get_time_object
 
 
 class UserGateway:
@@ -7,7 +8,8 @@ class UserGateway:
         self.db = Database()
 
     def search_user_by_name(self, username):
-        user = self.db.session.query(User).filter(User.username == username).first()
+        user = self.db.session.query(User).\
+            filter(User.username == username).first()
         self.db.commit()
         return user
 
@@ -15,7 +17,6 @@ class UserGateway:
                                     password, salt, superuser):
         self.db.add(User(username=username, email=email, password=password,
                          salt=salt, superuser=True))
-        self.db.commit()
 
 
 class MovieGateway:
@@ -23,13 +24,13 @@ class MovieGateway:
         self.db = Database()
 
     def select_all_movies(self):
-        movies = self.db.session.query(Movie).order_by(Movie.rating.desc()).all()
+        movies = self.db.session.query(Movie).\
+            order_by(Movie.rating.desc()).all()
         self.db.commit()
         return movies
 
     def update_table_with_movie_data(self, name, rating):
         self.db.add(Movie(name=name, rating=rating))
-        self.db.commit()
 
 
 class ProjectionGateway:
@@ -40,8 +41,19 @@ class ProjectionGateway:
         projections = []
         print(movie)
         if date == '':
-            projections = self.db.session.query(Movie.projections).filter(Movie.id == movie).order_by(Movie.date).all()
+            projections = self.db.session.query(Projection).\
+                filter(Projection.movie_id == movie).\
+                order_by(Projection.date).all()
         else:
-            projections = self.db.session.query(Movie.projections).filter(Movie.id == movie, Movie.date == date).order_by(Movie.date).all()
+            projections = self.db.session.query(Projection).\
+                filter(Projection.movie_id == movie, Projection.date == date).\
+                order_by(Projection.date).all()
+
         self.db.commit()
         return projections
+
+    def update_table_with_projection_data(self, movie, p_type, date, time):
+        date = get_datetime_object(date)
+        time = get_time_object(time)
+        self.db.add(Projection(movie_id=movie, type=p_type,
+                               date=date, time=time))

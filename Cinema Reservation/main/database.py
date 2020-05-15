@@ -16,6 +16,7 @@ class Database:
             self.session.add_all(row)
         else:
             self.session.add(row)
+        self.commit()
 
     def commit(self):
         self.session.commit()
