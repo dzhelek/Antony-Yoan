@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from email.utils import parseaddr
 from hashlib import sha512
 from random import randint
@@ -40,3 +41,13 @@ def validate_password(password):
             raise ValueError('password must contain a special symbol')
     else:
         raise ValueError('password must be min 8 characters long')
+
+
+def get_datetime_object(date):
+    y, m, d = date.split('-')
+    return datetime(int(y), int(m), int(d))
+
+
+def get_time_object(str_time):
+    h, m = str_time.split(':')
+    return time(int(h), int(m))

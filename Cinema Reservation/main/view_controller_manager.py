@@ -65,15 +65,19 @@ class ViewControllerManager:
                 # entered_data = self.projection_views.choose_movie_and_date()
                 entered_data =\
                     command.replace('show movie projections', '').split()
-                movie = entered_data[0]
                 if len(entered_data) == 2:
                     date = entered_data[1]
                 else:
                     date = ''
-                try:
-                    self.show_movie_projections(movie, date)
-                except Exception as e:
-                    print(str(e))
+                if len(entered_data) == 0:
+                    print('please specifie movie_id (and date)')
+                else:
+                    movie = entered_data[0]
+                    try:
+                        self.show_movie_projections(movie, date)
+                    except Exception as e:
+                        print(str(e))
+                        raise
             elif command == 'make reservation':
                 system_input('number of seats')
                 self.show_movies()

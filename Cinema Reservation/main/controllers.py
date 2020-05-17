@@ -39,3 +39,7 @@ class ProjectionController:
 
     def show_projection(self, movie, date):
         return self.gateway.select_projections_for_given_movie_and_date(movie, date)
+
+    def add_projection(self, movie, p_type, date, time):
+        self.gateway.update_table_with_projection_data(movie, p_type,
+                                                       date, time)
