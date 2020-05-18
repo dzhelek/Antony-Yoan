@@ -83,11 +83,6 @@ class MovieViews:
 
 
 class ProjectionViews:
-    # def choose_movie_and_date(self):
-    #     movie = system_input('Movie')
-    #     date = system_input('Date')
-    #     return movie, date
-
     def show_all_projections(self, projections):
         print()
         if projections == []:
@@ -103,9 +98,6 @@ class ProjectionViews:
 
 
 class ReservationViews:
-    pass
-
-
-if __name__ == '__main__':
-    view = UserViews()
-    view.exit('gosho')
+    def index(self):
+        print('\nStart creating reservation.')
+        print('On each step if you would like to quit just type cancel!')

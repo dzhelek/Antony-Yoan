@@ -53,6 +53,20 @@ class ViewControllerManager:
         projections = self.projection_controllers.show_projection(movie, date)
         self.projection_views.show_all_projections(projections)
 
+    def read_input_for_reservation(self, input_message, error_message):
+        is_correct_data_entered = False
+        data_for_reservation = 0
+        while not is_correct_data_entered:
+            data_entered = system_input(input_message)
+            if data_entered == 'cancel':
+                raise SystemExit
+            try:
+                data_for_reservation += int(data_entered)
+                is_correct_data_entered = True
+            except Exception as e:
+                print(error_message)
+        return data_for_reservation
+
     def manage_user_commands_views_and_controllers(self, user):
         self.user_views.welcome_user(user)
         while True:
@@ -62,7 +76,6 @@ class ViewControllerManager:
             elif command == 'show movies':
                 self.show_movies()
             elif command.startswith('show movie projections'):
-                # entered_data = self.projection_views.choose_movie_and_date()
                 entered_data =\
                     command.replace('show movie projections', '').split()
                 if len(entered_data) == 2:
@@ -79,11 +92,17 @@ class ViewControllerManager:
                         print(str(e))
                         raise
             elif command == 'make reservation':
-                system_input('number of seats')
-                self.show_movies()
-                movie = system_input('movie')
-                self.show_movie_projections(movie)
-                projection = system_input('projection')
+                try:
+                    self.reservation_views.index()
+                    seats = self.read_input_for_reservation('number of seats', 'Seats need to be number in range 1-10')
+                    # print(f'Seats: {seats}')
+                    self.show_movies()
+                    movie_id = self.read_input_for_reservation('movie id', 'Movie id needs to be a number')
+                    # print(f'Movie id: {movie}')
+                    self.show_movie_projections(movie_id)
+                    projection_id = self.read_input_for_reservation('projection id', 'Projection id needs to be a number')
+                except SystemExit:
+                    print('\nProcess canceled!')
 
             elif command == 'exit':
                 raise SystemExit
@@ -102,10 +121,6 @@ class ViewControllerManager:
                 self.user_controllers.sign_user(username_entered, email_entered, password_entered)
                 user = self.user_controllers.select_user_by_username(username_entered, password_entered)
                 return user
-            # except Error as err:
-            #     error_message_fields = str(err).split('.')
-            #     message_to_print = f'User with this {error_message_fields[1]} already exists!'
-            #     self.user_views.error_view(message_to_print)
             except ValueError as err:
                 self.user_views.error_view(err)
             except IntegrityError as e:

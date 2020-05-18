@@ -39,7 +39,7 @@ class ProjectionGateway:
 
     def select_projections_for_given_movie_and_date(self, movie, date):
         projections = []
-        print(movie)
+        # print(movie)
         if date == '':
             projections = self.db.session.query(Projection).\
                 filter(Projection.movie_id == movie).\
