@@ -43,11 +43,11 @@ class ProjectionGateway:
         if date == '':
             projections = self.db.session.query(Projection).\
                 filter(Projection.movie_id == movie).\
-                order_by(Projection.date).all()
+                order_by(Projection.date).order_by(Projection.time).all()
         else:
             projections = self.db.session.query(Projection).\
                 filter(Projection.movie_id == movie, Projection.date == date).\
-                order_by(Projection.date).all()
+                order_by(Projection.time).all()
 
         self.db.commit()
         return projections
