@@ -1,5 +1,5 @@
 from .utils import get_hash, get_hashed_pass_and_salt
-from .gateway import UserGateway, MovieGateway, ProjectionGateway
+from .gateway import UserGateway, MovieGateway, ProjectionGateway, ReservationGateway
 
 
 class UserController:
@@ -43,3 +43,11 @@ class ProjectionController:
     def add_projection(self, movie, p_type, date, time):
         self.gateway.update_table_with_projection_data(movie, p_type,
                                                        date, time)
+
+
+class ReservationController:
+    def __init__(self):
+        self.gateway = ReservationGateway()
+
+    def count_used_seats(self, projection_id):
+        return self.gateway.count_reservations_with_projection_id(projection_id)

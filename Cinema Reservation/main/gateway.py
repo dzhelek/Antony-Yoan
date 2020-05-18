@@ -1,6 +1,7 @@
-from .models import User, Movie, Projection
+from .models import User, Movie, Projection, Reservation
 from .database import Database
 from .utils import get_datetime_object, get_time_object
+from sqlalchemy import func
 
 
 class UserGateway:
@@ -57,3 +58,12 @@ class ProjectionGateway:
         time = get_time_object(time)
         self.db.add(Projection(movie_id=movie, type=p_type,
                                date=date, time=time))
+
+
+class ReservationGateway:
+    def __init__(self):
+        self.db = Database()
+
+    def count_reservations_with_projection_id(self, projection_id):
+        return self.db.session.query(func.count(Reservation.projection_id)).\
+            filter(Reservation.projection_id == projection_id).first()

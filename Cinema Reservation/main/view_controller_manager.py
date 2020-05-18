@@ -1,8 +1,9 @@
 # from sqlite3 import Error
-from .controllers import UserController, MovieController, ProjectionController
+from .controllers import UserController, MovieController, ProjectionController, ReservationController
 from .models import User
 from .views import (UserViews, MovieViews, ProjectionViews,
                    ReservationViews, system_input)
+from views_constants import PROJECTION_SEATS
 from sqlalchemy.exc import IntegrityError
 import re
 
@@ -15,6 +16,7 @@ class ViewControllerManager:
         self.projection_views = ProjectionViews()
         self.projection_controllers = ProjectionController()
         self.reservation_views = ReservationViews()
+        self.reservation_controllers = ReservationController()
 
     def manage_entering_system_views_and_controllers(self):
         is_system_entered = False
@@ -101,6 +103,11 @@ class ViewControllerManager:
                     # print(f'Movie id: {movie}')
                     self.show_movie_projections(movie_id)
                     projection_id = self.read_input_for_reservation('projection id', 'Projection id needs to be a number')
+                    projection_used_seats = self.reservation_controllers.count_used_seats(projection_id)
+                    if PROJECTION_SEATS - projection_used_seats[0] >= seats:
+                        print(f'You can reserve {seats} seats')
+                    else:
+                        print(f'There aren`t {seats} available seats')
                 except SystemExit:
                     print('\nProcess canceled!')
 
@@ -134,3 +141,4 @@ class ViewControllerManager:
         self.user_controllers.gateway.db.close()
         self.movie_controllers.gateway.db.close()
         self.projection_controllers.gateway.db.close()
+        self.reservation_controllers.gateway.db.close()
