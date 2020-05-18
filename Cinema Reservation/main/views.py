@@ -1,7 +1,7 @@
 from getpass import getpass
 import subprocess
 
-from models import User
+from .models import User
 from views_constants import *
 from .utils import validate_email, validate_password
 

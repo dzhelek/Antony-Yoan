@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import User, Movie, Projection, Reservation, Base
+from main.models import User, Movie, Projection, Reservation, Base
 from settings import DB_NAME
 
 

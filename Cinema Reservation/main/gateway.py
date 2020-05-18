@@ -1,4 +1,4 @@
-from models import User, Movie, Projection
+from .models import User, Movie, Projection
 from .database import Database
 from .utils import get_datetime_object, get_time_object
 
